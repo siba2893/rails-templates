@@ -100,7 +100,7 @@ gsub_file "config/database.yml", "#\{app_name\}", app_name
 ########################################
 run "touch docker-compose.yml"
 run "curl -L https://raw.githubusercontent.com/siba2893/rails-templates/refs/heads/master/templates/docker-compose.yml > docker-compose.yml"
-gsub_file "config/database.yml", "#\{app_name\}", app_name
+gsub_file "docker-compose.yml", "#\{app_name\}", app_name
 run "docker-compose up -d"
 
 # General Config
