@@ -86,6 +86,50 @@ RUBY
 
 environment generators
 
+# Manifest
+########################################
+run "touch app/assets/config/manifest.js"
+
+# Docker
+########################################
+run "touch docker-compose.yml"
+file "docker-compose.yml", <<~YAML
+  services:
+    postgres:
+      image: postgres:14
+      container_name: #{app_name}_postgres
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      restart: always  # Restart policy to keep the container running
+      networks:
+        - #{app_name}_network
+
+    redis:
+      image: redis:7
+      container_name: #{app_name}_redis
+      ports:
+        - "6379:6379"
+      volumes:
+        - redis_data:/data
+      restart: always  # Restart policy to keep the container running
+      networks:
+        - #{app_name}_network
+
+  networks:
+    #{app_name}_network:
+      driver: bridge
+
+  volumes:
+    postgres_data:
+    redis_data:
+YAML
+run "docker-compose up -d"
+
 # General Config
 ########################################
 general_config = <<~RUBY
