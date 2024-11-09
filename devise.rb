@@ -187,10 +187,6 @@ after_bundle do
     //= link bootstrap.min.js
   JS
 
-  # Heroku
-  ########################################
-  # run "bundle lock --add-platform x86_64-linux"
-
   # Dotenv
   ########################################
   run "touch '.env'"
