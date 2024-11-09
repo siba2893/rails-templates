@@ -88,46 +88,19 @@ environment generators
 
 # Manifest
 ########################################
+run "mkdir app/assets/config"
 run "touch app/assets/config/manifest.js"
+
+# Database
+########################################
+run "curl -L https://raw.githubusercontent.com/siba2893/rails-templates/refs/heads/master/templates/database.yml > app/config/database.yml"
+gsub_file "config/database.yml", "#\{app_name\}", app_name
 
 # Docker
 ########################################
 run "touch docker-compose.yml"
-file "docker-compose.yml", <<~YAML
-  services:
-    postgres:
-      image: postgres:14
-      container_name: #{app_name}_postgres
-      environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-      ports:
-        - "5432:5432"
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      restart: always  # Restart policy to keep the container running
-      networks:
-        - #{app_name}_network
-
-    redis:
-      image: redis:7
-      container_name: #{app_name}_redis
-      ports:
-        - "6379:6379"
-      volumes:
-        - redis_data:/data
-      restart: always  # Restart policy to keep the container running
-      networks:
-        - #{app_name}_network
-
-  networks:
-    #{app_name}_network:
-      driver: bridge
-
-  volumes:
-    postgres_data:
-    redis_data:
-YAML
+run "curl -L https://raw.githubusercontent.com/siba2893/rails-templates/refs/heads/master/templates/docker-compose.yml > docker-compose.yml"
+gsub_file "config/database.yml", "#\{app_name\}", app_name
 run "docker-compose up -d"
 
 # General Config
