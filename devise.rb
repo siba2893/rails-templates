@@ -4,18 +4,22 @@ run "if uname | grep -q 'Darwin'; then pgrep spring | xargs kill -9; fi"
 ########################################
 inject_into_file "Gemfile", before: "group :development, :test do" do
   <<~RUBY
-    gem "bootstrap", "~> 5.2"
+    gem "bootstrap", "~> 5.3.3"
     gem "devise"
     gem "autoprefixer-rails"
-    gem "font-awesome-sass", "~> 6.1"
+    gem "font-awesome-sass", "~> 6"
     gem "simple_form", github: "heartcombo/simple_form"
-    gem "sassc-rails"
+    gem "dartsass-sprockets"
 
   RUBY
 end
 
 inject_into_file "Gemfile", after: "group :development, :test do" do
   "\n  gem \"dotenv-rails\""
+end
+
+inject_into_file "Gemfile", after: "group :development do" do
+  "\n  gem \"hotwire-livereload\""
 end
 
 # Assets
@@ -194,6 +198,10 @@ after_bundle do
   # Rubocop
   ########################################
   run "curl -L https://raw.githubusercontent.com/lewagon/rails-templates/master/.rubocop.yml > .rubocop.yml"
+
+  # Live refresh
+  ########################################
+  run "rails livereload:install"
 
   # Git
   ########################################
