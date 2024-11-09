@@ -189,7 +189,7 @@ after_bundle do
 
   # Heroku
   ########################################
-  run "bundle lock --add-platform x86_64-linux"
+  # run "bundle lock --add-platform x86_64-linux"
 
   # Dotenv
   ########################################
