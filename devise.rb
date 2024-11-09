@@ -93,7 +93,7 @@ run "touch app/assets/config/manifest.js"
 
 # Database
 ########################################
-run "curl -L https://raw.githubusercontent.com/siba2893/rails-templates/refs/heads/master/templates/database.yml > app/config/database.yml"
+run "curl -L https://raw.githubusercontent.com/siba2893/rails-templates/refs/heads/master/templates/database.yml > config/database.yml"
 gsub_file "config/database.yml", "#\{app_name\}", app_name
 
 # Docker
